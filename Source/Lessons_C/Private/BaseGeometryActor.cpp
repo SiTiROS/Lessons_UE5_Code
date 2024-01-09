@@ -2,8 +2,11 @@
 
 
 #include "BaseGeometryActor.h"
+#include "Engine/Engine.h"
 
-// Sets default values
+DEFINE_LOG_CATEGORY_STATIC(LogBaseGeometry, All, All);
+
+// Sets default values	
 ABaseGeometryActor::ABaseGeometryActor()
 {
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
@@ -15,8 +18,11 @@ ABaseGeometryActor::ABaseGeometryActor()
 void ABaseGeometryActor::BeginPlay()
 {
 	Super::BeginPlay();
-	printTypes();
 
+
+
+	//printTypes();
+	printStringTypes();
 
 
 }
@@ -47,3 +53,23 @@ void ABaseGeometryActor::printTypes()
 	UE_LOG(LogTemp, Display, TEXT("HasWeapon: %d"), static_cast<int>(HasWeapon));
 }
 
+void ABaseGeometryActor::printStringTypes()
+{
+	FString Name = "John Connor";
+	UE_LOG(LogBaseGeometry, Error, TEXT("Name: %s"), *Name);
+
+	int WeaponsNum = 4;
+	float Health = 34.4536473435f;
+	bool IsDead = false;
+
+	FString WeaponNumStr = "Weapon num = " + FString::FromInt(WeaponsNum);
+	FString HealthStr = "Health = " + FString::SanitizeFloat(Health);
+	FString IsDeadStr = "Is dead = " + FString(IsDead ? "true" : "false");
+
+	FString Stat = FString::Printf(TEXT(" \n == All Stat == \n %s \n %s \n %s "), *WeaponNumStr, *HealthStr, *IsDeadStr);
+
+	UE_LOG(LogBaseGeometry, Warning, TEXT(" %s"), *Stat);
+
+	GEngine->AddOnScreenDebugMessage(-1, 3.0f, FColor::Red, Name);
+	GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Green, Stat, true, FVector2D(1.5f, 1.5f));
+}
