@@ -14,7 +14,7 @@ class LESSONS_C_API ABaseGeometryActor : public AActor
 public:	
 	// Sets default values for this actor's properties
 	ABaseGeometryActor();
-
+		
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -22,5 +22,8 @@ protected:
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
+
+private:
+	void printTypes();
 
 };
