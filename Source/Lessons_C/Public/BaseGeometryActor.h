@@ -28,7 +28,8 @@ struct FGeometryData
 	UPROPERTY(EditAnywhere, Category = "Settings|Movement")
 	EMovementType MoveType = EMovementType::Static;
 
-
+	UPROPERTY(EditAnywhere, Category = "Settings|Design")
+	FLinearColor Color = FLinearColor::Black;
 };
 
 
@@ -77,4 +78,7 @@ private:
 	void PrintStringTypes();
 	void PrintTransform();
 	void HandleMovement();
+
+	void SetColor(const FLinearColor& Color);
+
 };
