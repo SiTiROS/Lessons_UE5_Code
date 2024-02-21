@@ -7,6 +7,31 @@
 #include "Components/StaticMeshComponent.h"
 #include "BaseGeometryActor.generated.h"
 
+UENUM(BlueprintType)
+enum class EMovementType : uint8
+{
+	Sin,
+	Static
+};
+
+USTRUCT(BlueprintType)
+struct FGeometryData
+{
+	GENERATED_USTRUCT_BODY()
+
+	UPROPERTY(EditAnywhere, Category = "Settings|Movement")
+	float Amplitude = 50.0f;
+
+	UPROPERTY(EditAnywhere, Category = "Settings|Movement")
+	float Frequency = 2.0f;
+
+	UPROPERTY(EditAnywhere, Category = "Settings|Movement")
+	EMovementType MoveType = EMovementType::Static;
+
+
+};
+
+
 UCLASS()
 class LESSONS_C_API ABaseGeometryActor : public AActor
 {
@@ -23,11 +48,8 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
-	UPROPERTY(EditAnywhere, Category = "Settings|Movement")
-	float Amplitude = 50.0f;
-
-	UPROPERTY(EditAnywhere, Category = "Settings|Movement")
-	float Frequency = 2.0f;
+	UPROPERTY(EditAnywhere, Category = "Settings|GeometryData")
+	FGeometryData GeometryData;
 
 	UPROPERTY(EditAnywhere, Category = "Settings|Weapon")
 	int32 WeaponsNum = 4;
@@ -51,7 +73,8 @@ public:
 private:
 	FVector InitialLocation;
 
-	void printTypes();
-	void printStringTypes();
-	void printTransform();
+	void PrintTypes();
+	void PrintStringTypes();
+	void PrintTransform();
+	void HandleMovement();
 };
