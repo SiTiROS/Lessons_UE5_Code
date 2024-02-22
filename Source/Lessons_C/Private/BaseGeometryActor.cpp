@@ -51,10 +51,14 @@ void ABaseGeometryActor::HandleMovement()
 	{
 		// z = z0 + amplitude * sin(freq * t);
 		FVector CurrentLocation = GetActorLocation();
-		float time = GetWorld()->GetTimeSeconds();
-		CurrentLocation.Z = InitialLocation.Z + GeometryData.Amplitude * FMath::Sin(GeometryData.Frequency * time);
+		if (GetWorld())
+		{
+			float time = GetWorld()->GetTimeSeconds();
+			CurrentLocation.Z = InitialLocation.Z + GeometryData.Amplitude * FMath::Sin(GeometryData.Frequency * time);
 
-		SetActorLocation(CurrentLocation);
+			SetActorLocation(CurrentLocation);
+		}
+		
 	}
 	break;
 
@@ -65,6 +69,7 @@ void ABaseGeometryActor::HandleMovement()
 
 void ABaseGeometryActor::SetColor(const FLinearColor& Color)
 {
+	if (!BaseMesh) return;
 	UMaterialInstanceDynamic* DynMaterial = BaseMesh->CreateAndSetMaterialInstanceDynamic(0);
 	if (DynMaterial)
 	{
@@ -87,7 +92,6 @@ void ABaseGeometryActor::OnTimerFired()
 	}
 	}
 
-
 void ABaseGeometryActor::PrintTypes()
 {
 	UE_LOG(LogBaseGeometry, Warning, TEXT("Actor name %s"), *GetName());
@@ -109,8 +113,12 @@ void ABaseGeometryActor::PrintStringTypes()
 	FString Stat = FString::Printf(TEXT(" \n == All Stat == \n %s \n %s \n %s "), *WeaponNumStr, *HealthStr, *IsDeadStr);
 	UE_LOG(LogBaseGeometry, Warning, TEXT(" %s"), *Stat);
 
-	GEngine->AddOnScreenDebugMessage(-1, 3.0f, FColor::Red, Name);
-	GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Green, Stat, true, FVector2D(1.5f, 1.5f));
+	if (GEngine)
+	{
+		GEngine->AddOnScreenDebugMessage(-1, 3.0f, FColor::Red, Name);
+		GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Green, Stat, true, FVector2D(1.5f, 1.5f));
+	}
+
 }
 
 void ABaseGeometryActor::PrintTransform()
