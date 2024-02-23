@@ -6,6 +6,8 @@
 #include "GameFramework/Pawn.h"
 #include "MyPawn.generated.h"
 
+class UCameraComponent;
+
 UCLASS()
 class LESSONS_C_API AMyPawn : public APawn
 {
@@ -19,7 +21,16 @@ public:
     USceneComponent* SceneComponent;
 
 	UPROPERTY(VisibleAnywhere)
+    UStaticMeshComponent* StaticMeshComponent;
+
+	UPROPERTY(VisibleAnywhere)
+    UCameraComponent* CameraComponent;
+
+	UPROPERTY(VisibleAnywhere)
     float Velocity = 300.0f;
+
+	virtual void PossessedBy(AController* NewController) override;
+    virtual void UnPossessed() override;
 
 protected:
 	// Called when the game starts or when spawned
